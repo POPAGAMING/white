@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProBoard - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0B0F19',
+                        panelbg: '#111827',
+                        bordercol: '#1F2937',
+                        primary: '#6366f1'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: theme('colors.darkbg');
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid theme('colors.bordercol');
+        }
+
+        .action-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        /* Animated background gradient */
+        .gradient-bg {
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.1), transparent 40%);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex text-gray-200">
+
+    <aside class="w-20 md:w-64 border-r border-bordercol bg-panelbg hidden sm:flex flex-col h-screen fixed z-20">
+        <!-- Logo -->
+        <div class="h-16 flex items-center justify-center md:justify-start md:px-6 border-b border-bordercol">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <i class="fas fa-layer-group text-xl text-white"></i>
+            </div>
+            <h1 class="text-xl font-bold ml-3 hidden md:block tracking-tight text-white">ProBoard</h1>
+        </div>
+
+        <!-- Nav Links -->
+        <nav class="flex-1 overflow-y-auto py-6 flex flex-col gap-2 px-3">
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-xl bg-indigo-500/10 text-indigo-400 font-medium">
+                <i class="fas fa-home text-lg w-6 text-center"></i>
+                <span class="hidden md:block">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:text-gray-100 hover:bg-white/5 transition font-medium">
+                <i class="fas fa-clock text-lg w-6 text-center"></i>
+                <span class="hidden md:block">Recent Boards</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:text-gray-100 hover:bg-white/5 transition font-medium">
+                <i class="fas fa-users text-lg w-6 text-center"></i>
+                <span class="hidden md:block">Team Spaces</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-xl text-gray-400 hover:text-gray-100 hover:bg-white/5 transition font-medium">
+                <i class="fas fa-cog text-lg w-6 text-center"></i>
+                <span class="hidden md:block">Settings</span>
+            </a>
+        </nav>
+
+        <!-- User Profile -->
+        <div class="p-4 border-t border-bordercol">
+            <div class="flex items-center gap-3">
+                <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="User" class="w-10 h-10 rounded-full border border-gray-700">
+                <div class="hidden md:block">
+                    <p class="text-sm font-semibold text-white">Guest User</p>
+                    <p class="text-xs text-gray-500">Free Plan</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 ml-0 sm:ml-20 md:ml-64 flex flex-col min-h-screen">
+        
+        <!-- Top Header -->
+        <header class="h-16 glass-panel sticky top-0 z-10 flex items-center justify-between px-6 border-b border-bordercol">
+            <div class="flex items-center gap-4">
+                <div class="sm:hidden w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center">
+                    <i class="fas fa-layer-group text-sm text-white"></i>
+                </div>
+                <div class="relative hidden sm:block">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" placeholder="Search boards..." class="bg-gray-800/50 border border-gray-700 text-sm rounded-full pl-9 pr-4 py-2 text-white focus:outline-none focus:border-indigo-500 w-64 transition">
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="text-gray-400 hover:text-white transition relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-panelbg"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-6 lg:p-10 max-w-6xl mx-auto w-full flex-1">
+            
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-white tracking-tight mb-1">Welcome to ProBoard</h2>
+                <p class="text-gray-400 text-sm">Collaborate in real-time with your team across the globe.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                
+                <!-- Create Room Card -->
+                <div class="action-card bg-panelbg border border-bordercol p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl -mr-10 -mt-10 transition group-hover:bg-indigo-500/20"></div>
+                    
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4 border border-indigo-500/30">
+                        <i class="fas fa-plus text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Create New Board</h3>
+                    <p class="text-gray-400 text-sm mb-6 line-clamp-2">Start a blank canvas and invite your team members to collaborate instantly.</p>
+                    
+                    <button id="btn-create" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20">
+                        Start Blank Board <i class="fas fa-arrow-right text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- Join Room Card -->
+                <div class="action-card bg-panelbg border border-bordercol p-6 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500/10 rounded-full blur-2xl -mr-10 -mt-10 transition group-hover:bg-pink-500/20"></div>
+                    
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center mb-4 border border-pink-500/30">
+                        <i class="fas fa-users text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Join a Session</h3>
+                    <p class="text-gray-400 text-sm mb-6 line-clamp-2">Have a room code? Enter it below to join an ongoing collaborative session.</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="room-code-input" placeholder="Enter 6-digit code" 
+                            class="flex-1 bg-gray-900 border border-gray-700 text-white px-4 py-3 rounded-xl font-mono text-center text-lg tracking-widest uppercase focus:outline-none focus:border-indigo-500 transition"
+                            maxlength="6">
+                        <button id="btn-join" class="py-3 px-6 rounded-xl bg-gray-700 hover:bg-gray-600 text-white font-semibold transition flex items-center justify-center gap-2">
+                            Join <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                    </div>
+                    <p id="error-msg" class="text-red-400 text-xs mt-3 hidden absolute bottom-2"><i class="fas fa-exclamation-circle"></i> Invalid room code.</p>
+                </div>
+
+            </div>
+
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-white">Recent Boards</h3>
+                <button class="text-sm text-indigo-400 hover:text-indigo-300">View All</button>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <!-- Dummy Board 1 -->
+                <div class="bg-panelbg border border-bordercol rounded-xl overflow-hidden hover:border-gray-600 transition cursor-pointer group">
+                    <div class="h-32 bg-gray-800 relative overflow-hidden">
+                        <!-- Mock whiteboard preview pattern -->
+                        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(white 1px, transparent 1px); background-size: 10px 10px;"></div>
+                        <div class="absolute top-4 left-4 w-16 h-1 bg-blue-500 rounded transform rotate-12"></div>
+                        <div class="absolute top-8 left-10 w-8 h-8 border-2 border-green-500 rounded-full"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-panelbg to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end justify-center pb-4">
+                            <span class="bg-indigo-600 text-xs font-bold px-3 py-1 rounded-full">Open</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-sm font-semibold text-white mb-1 truncate">Q3 Planning Map</h4>
+                        <p class="text-xs text-gray-500">Updated 2 hours ago</p>
+                    </div>
+                </div>
+
+                <!-- Dummy Board 2 -->
+                <div class="bg-panelbg border border-bordercol rounded-xl overflow-hidden hover:border-gray-600 transition cursor-pointer group">
+                    <div class="h-32 bg-gray-800 relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(white 1px, transparent 1px); background-size: 10px 10px;"></div>
+                        <div class="absolute top-6 right-8 w-20 h-16 bg-yellow-200/20 border border-yellow-500/50 rounded flex flex-col p-1 gap-1"><div class="w-full h-1 bg-yellow-500/50 rounded"></div><div class="w-1/2 h-1 bg-yellow-500/50 rounded"></div></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-panelbg to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end justify-center pb-4">
+                            <span class="bg-indigo-600 text-xs font-bold px-3 py-1 rounded-full">Open</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-sm font-semibold text-white mb-1 truncate">Wireframe Sketches</h4>
+                        <p class="text-xs text-gray-500">Updated yesterday</p>
+                    </div>
+                </div>
+                
+                <!-- Dummy Board 3 -->
+                <div class="bg-panelbg border border-bordercol rounded-xl overflow-hidden hover:border-gray-600 transition cursor-pointer group">
+                    <div class="h-32 flex items-center justify-center bg-gray-800/50 border-b border-bordercol">
+                        <i class="fas fa-image text-4xl text-gray-600"></i>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-sm font-semibold text-white mb-1 truncate">Architecture Diagram</h4>
+                        <p class="text-xs text-gray-500">Updated 3 days ago</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnCreate = document.getElementById('btn-create');
+            const btnJoin = document.getElementById('btn-join');
+            const codeInput = document.getElementById('room-code-input');
+            const errorMsg = document.getElementById('error-msg');
+
+            // Generate Room Code
+            function generateRoomCode() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let code = '';
+                for (let i = 0; i < 6; i++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return code;
+            }
+
+            // Create Room
+            btnCreate.addEventListener('click', () => {
+                const btn = btnCreate;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+                setTimeout(() => {
+                    window.location.href = `/board.html?room=${generateRoomCode()}`;
+                }, 400); // Small delay for UX
+            });
+
+            // Join Room
+            const joinRoom = () => {
+                const code = codeInput.value.trim().toUpperCase();
+                if (code.length === 6) {
+                    errorMsg.classList.add('hidden');
+                    btnJoin.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    setTimeout(() => {
+                        window.location.href = `/board.html?room=${code}`;
+                    }, 400);
+                } else {
+                    errorMsg.classList.remove('hidden');
+                    codeInput.classList.add('border-red-500');
+                    setTimeout(() => codeInput.classList.remove('border-red-500'), 2000);
+                }
+            };
+
+            btnJoin.addEventListener('click', joinRoom);
+            codeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') joinRoom(); });
+            codeInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.toUpperCase();
+                errorMsg.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
